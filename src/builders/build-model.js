@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import prettier from "prettier";
+const fs = require("fs");
+const path = require("path");
+const prettier = require("prettier");
 
 const saveModel = (name, modelsString) => {
   const formatedModelsString = prettier.format(modelsString, {
@@ -9,14 +9,14 @@ const saveModel = (name, modelsString) => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "models", `${name}.ts`),
+    path.join(process.cwd(), "src", "models", `${name}.ts`),
     formatedModelsString
   );
 };
 
 const insertInModelsFile = (name) => {
   const models = fs.readFileSync(
-    path.join(__dirname, "..", "database", "index.ts"),
+    path.join(process.cwd(), "src", "database", "index.ts"),
     { encoding: "utf-8" }
   );
 
@@ -45,7 +45,7 @@ ${formatedArrayElements}
 ${restElements}`;
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "database", "index.ts"),
+    path.join(process.cwd(), "src", "database", "index.ts"),
     newModels
   );
 };
@@ -88,4 +88,4 @@ export default ${data.model.name};`;
   insertInModelsFile(data.model.name);
 };
 
-export default buildModel;
+module.exports = buildModel;

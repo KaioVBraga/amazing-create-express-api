@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import prettier from "prettier";
+const fs = require("fs");
+const path = require("path");
+const prettier = require("prettier");
 
 const saveController = (name, controllerString) => {
   const formatedControllerString = prettier.format(controllerString, {
@@ -9,7 +9,7 @@ const saveController = (name, controllerString) => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "controllers", `${name}Controller.ts`),
+    path.join(process.cwd(), "src", "controllers", `${name}Controller.ts`),
     formatedControllerString
   );
 };
@@ -147,4 +147,4 @@ export default new ${data.controller.name}Controller();
   saveController(data.controller.name, controllerString);
 };
 
-export default buildController;
+module.exports = buildController;

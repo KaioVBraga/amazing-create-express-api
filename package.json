@@ -1,12 +1,17 @@
 {
   "name": "create-express-api",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "build-endpoint": "node -r sucrase/register ./src/scripts/build-endpoint.js"
   },
   "dependencies": {
+    "prettier": "^2.5.1",
+    "prompt": "^1.2.1",
     "sucrase": "^3.20.1"
+  },
+  "main": "./src/index.js",
+  "bin": {
+    "create-express-api": "./src/index.js"
   }
 }

@@ -1,13 +1,15 @@
-import fs from "fs";
-import path from "path";
-import prettier from "prettier";
+const fs = require("fs");
+const path = require("path");
+const prettier = require("prettier");
 
 const saveService = (name, serviceString) => {
-  if (fs.existsSync(path.join(__dirname, "..", "services", `${name}Service`))) {
-    fs.rmdirSync(path.join(__dirname, "..", "services", `${name}Service`));
+  if (
+    fs.existsSync(path.join(process.cwd(), "src", "services", `${name}Service`))
+  ) {
+    fs.rmdirSync(path.join(process.cwd(), "src", "services", `${name}Service`));
   }
 
-  fs.mkdirSync(path.join(__dirname, "..", "services", `${name}Service`));
+  fs.mkdirSync(path.join(process.cwd(), "src", "services", `${name}Service`));
 
   const formatedServiceString = prettier.format(serviceString, {
     singleQuote: true,
@@ -15,7 +17,7 @@ const saveService = (name, serviceString) => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "services", `${name}Service`, `index.ts`),
+    path.join(process.cwd(), "src", "services", `${name}Service`, `index.ts`),
     formatedServiceString
   );
 };
@@ -132,4 +134,4 @@ export default new ${data.service.name}Service();
   saveService(data.service.name, serviceString);
 };
 
-export default buildService;
+module.exports = buildService;

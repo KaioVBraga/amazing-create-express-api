@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import prettier from "prettier";
+const fs = require("fs");
+const path = require("path");
+const prettier = require("prettier");
 
 const typesOptions = {
   index: { httpVerb: "get", slug: "" },
@@ -11,11 +11,11 @@ const typesOptions = {
 };
 
 const saveRoute = (name, routesString) => {
-  if (fs.existsSync(path.join(__dirname, "..", "routes", `${name}`))) {
-    fs.rmdirSync(path.join(__dirname, "..", "routes", `${name}`));
+  if (fs.existsSync(path.join(process.cwd(), "src", "routes", `${name}`))) {
+    fs.rmdirSync(path.join(process.cwd(), "src", "routes", `${name}`));
   }
 
-  fs.mkdirSync(path.join(__dirname, "..", "routes", `${name}`));
+  fs.mkdirSync(path.join(process.cwd(), "src", "routes", `${name}`));
 
   const formatedRoutesString = prettier.format(routesString, {
     singleQuote: true,
@@ -23,18 +23,21 @@ const saveRoute = (name, routesString) => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "routes", `${name}`, `index.ts`),
+    path.join(process.cwd(), "src", "routes", `${name}`, `index.ts`),
     formatedRoutesString
   );
 };
 
 const insertInRoutesFile = (name) => {
   const routes = fs.readFileSync(
-    path.join(__dirname, "..", "routes", "index.ts"),
+    path.join(process.cwd(), "src", "routes", "index.ts"),
     { encoding: "utf-8" }
   );
 
-  console.log("PATH :: ", path.join(__dirname, "..", "routes", "index.ts"));
+  console.log(
+    "PATH :: ",
+    path.join(process.cwd(), "src", "routes", "index.ts")
+  );
 
   const [importsBlock, restBlock] = routes.split("const routes = Router();");
 
@@ -62,7 +65,10 @@ ${formatedArrayElements}
 ];
 ${restElements}`;
 
-  fs.writeFileSync(path.join(__dirname, "..", "routes", "index.ts"), newRoutes);
+  fs.writeFileSync(
+    path.join(process.cwd(), "src", "routes", "index.ts"),
+    newRoutes
+  );
 };
 
 const buildRoute = (route, basePath, controllerName, validationName = "") => {
@@ -134,4 +140,4 @@ export default routes;`;
   insertInRoutesFile(data.routes.name);
 };
 
-export default buildRoutes;
+module.exports = buildRoutes;

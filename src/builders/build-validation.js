@@ -1,15 +1,21 @@
-import fs from "fs";
-import path from "path";
-import prettier from "prettier";
+const fs = require("fs");
+const path = require("path");
+const prettier = require("prettier");
 
 const saveValidation = (name, validationString) => {
   if (
-    fs.existsSync(path.join(__dirname, "..", "validation", `${name}Controller`))
+    fs.existsSync(
+      path.join(process.cwd(), "src", "validation", `${name}Controller`)
+    )
   ) {
-    fs.rmdirSync(path.join(__dirname, "..", "validation", `${name}Controller`));
+    fs.rmdirSync(
+      path.join(process.cwd(), "src", "validation", `${name}Controller`)
+    );
   }
 
-  fs.mkdirSync(path.join(__dirname, "..", "validation", `${name}Controller`));
+  fs.mkdirSync(
+    path.join(process.cwd(), "src", "validation", `${name}Controller`)
+  );
 
   const formatedValidationString = prettier.format(validationString, {
     singleQuote: true,
@@ -17,7 +23,13 @@ const saveValidation = (name, validationString) => {
   });
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "validation", `${name}Controller`, `index.ts`),
+    path.join(
+      process.cwd(),
+      "src",
+      "validation",
+      `${name}Controller`,
+      `index.ts`
+    ),
     formatedValidationString
   );
 };
@@ -96,4 +108,4 @@ ${updateFieldsString}
   saveValidation(data.validation.name, validationString);
 };
 
-export default buildValidation;
+module.exports = buildValidation;
