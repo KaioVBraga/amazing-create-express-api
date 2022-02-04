@@ -1,0 +1,36 @@
+{
+  "controller": {
+    "name": "PessoaTeste"
+  },
+  "service": {
+    "name": "PessoaTeste"
+  },
+  "validation": {
+    "name": "PessoaTeste",
+    "fields": {
+      "nome": ["string", "required"],
+      "cpf": ["string", "required"],
+      "foto": ["string"]
+    }
+  },
+  "routes": {
+    "name": "PessoaTestee",
+    "basePath": "pessoa-teste",
+    "list": [
+      { "type": "index" },
+      { "type": "read", "auth": false },
+      { "type": "create" },
+      { "type": "update" },
+      { "type": "delete" }
+    ]
+  },
+  "model": {
+    "build": true,
+    "name": "Pessoa",
+    "tableName": "pessoa",
+    "fields": {
+      "nome": "STRING",
+      "cpf": "STRING"
+    }
+  }
+}
